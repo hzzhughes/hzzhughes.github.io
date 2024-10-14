@@ -16,6 +16,6 @@ title: Home
 
 Hi there, I'm Hughes Zhou, currently studying as a graduate student in USC.
 
-Though previously obtained a Bachelor of Economics, I'm actually have a broad research interest.
+Though I previously obtained a Bachelor of Economics, my research interest is actually in ML and especially in RL now.
 
 You can find some of my study/life experience in my [posts](./blog).
