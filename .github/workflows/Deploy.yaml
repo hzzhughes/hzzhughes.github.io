@@ -1,0 +1,28 @@
+name: Deploy pages
+on:
+  push:
+    # This needs to be replaced with the branch you want to deploy from if you use a non-standard name
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  hugo:
+    runs-on: ubuntu-latest
+    steps:
+      # Required for checking out the repo
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      # Required for setting up hugo; if you use a different site generator, this needs to be changed.
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
+      # This step generates the site. By default, hugo dumps it into the `<working directory>/public` directory,
+      # a fact we'll be taking advantage of in a later step.
+      - name: Run hugo
+        shell: bash
+        run: |
+          mkdir public 
+          hugo --minify      
