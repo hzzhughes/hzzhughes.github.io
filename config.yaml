@@ -1,7 +1,7 @@
 baseURL : 'https://example.org/'
 languageCode : 'en-us'
 title : 'Hughes Zhou'
-theme : 'paper-mod'
+theme : 'PaperMod'
 
 markup:
   goldmark:
