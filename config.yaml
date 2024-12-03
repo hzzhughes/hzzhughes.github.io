@@ -1,4 +1,4 @@
-baseURL : 'https://example.org/'
+baseURL : 'https://hzzhughes.github.io/'
 languageCode : 'en-us'
 title : 'Hughes Zhou'
 theme : 'PaperMod'
@@ -11,15 +11,16 @@ markup:
     noClasses: false
 params:
   homeInfoParams:
-    Title: Hughes's blog
+    Title: Welcome to Hughes's blog!
     Content: Hi there, I'm Hughes Zhou, this is my personal website, you can find more about me in [here](about/).
 
   socialIcons: # optional
     - name: "GitHub"
       url: "https://github.com/hzzhughes"
     - name: "RSS"
-      url: ""
+      url: "/index.xml"
   ShowCodeCopyButtons: true
+  ShowToc: true
 outputs:
   home:
     - HTML
