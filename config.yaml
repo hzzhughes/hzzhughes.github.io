@@ -12,7 +12,7 @@ markup:
 params:
   homeInfoParams:
     Title: Welcome to Hughes's blog!
-    Content: Hi there, I'm Hughes Zhou, this is my personal website, you can find more about me in [here](about/).
+    Content: Hi there, I'm Hughes Zhou, this is my personal website, you can find more about me [here](about/).
 
   socialIcons: # optional
     - name: "GitHub"
@@ -29,9 +29,12 @@ outputs:
 
 menu:
   main:
+    - name: Posts
+      url: /
+      weight: 1
     - name: About
       url: about/
-      weight: 1
+      weight: 2
     - name: Archive
       url: archives
       weight: 3
@@ -41,6 +44,21 @@ menu:
     - name: Tags
       url: tags/
       weight: 4
-    - name: Projects
-      url: projects/
-      weight: 2
+    # - name: Projects
+    #   url: projects/
+    #   weight: 2
+# Add math compatibility
+# extensions:
+#   passthrough:
+#     delimiters:
+#       block:
+#       - - \[
+#         - \]
+#       - - $$
+#         - $$
+#       inline:
+#       - - \(
+#         - \)
+#       - - $
+#         - $
+#     enable: true

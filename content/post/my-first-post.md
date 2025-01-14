@@ -1,9 +1,9 @@
-+++
-date = '2024-11-30T14:52:24-08:00'
-draft = true
-title = 'My First Post'
-katex = true
-+++
+---
+date : '2024-11-30T14:52:24-08:00'
+draft : true
+title : 'My First Post'
+katex : true
+---
 ## Introduction
 
 This is **bold** text, and this is *emphasized* text.
