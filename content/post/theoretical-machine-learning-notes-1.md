@@ -1,6 +1,6 @@
 ---
 date : '2024-12-10'
-draft : true
+draft : false
 title : 'Settings in Theoretical Machine Learning'
 katex : true
 tags : ['learing theory']
