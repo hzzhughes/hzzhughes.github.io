@@ -7,16 +7,40 @@ tags : ['learing theory','reinforcement learning']
 ---
 >This is a personal note on some of the ideas in RL the writer learned so far. Many of them could be incorrect and I'd be happy if you could let me know those you find.
 >
+
+In this article,
+we are going to include some of these ideas proposed in such field.
+Note that most of the content actually comes from [this book](https://rltheorybook.github.io/).
+
 ## Background
 
-### Limits in Tabular Setting
+First of all,
+let's define the notations and settings.
+$$
+\begin{align*}
+    {\cal S}\quad&\text{state space}\\\\
+    {\cal A}\quad&\text{action space}\\\\
+    H\quad&\text{horizon}\\\\
+    s\quad&\text{state}\\\\
+    a\quad&\text{action}\\\\
+    h\quad&\text{step}\\\\
+    r_h(s,a)\quad&\text{reward}\\\\
+    \Bbb P_h(\cdot\vert s,a)\quad&\text{transition probability}\\\\
+    K\quad&\text{number of episodes}\\\\
+    k\quad&\text{episode}\\\\
+\end{align*}
+$$
+We say we are in episodic setting and consider the finite horizon MDP ${\cal M}=({\cal S}, {\cal A}, H, \Bbb P, r)$.
+We are also going to use this setting in most parts of this article.
+
+### Limits in tabular setting
 
 In tabular setting,
 we are faced with finite state and action space.
 However, sometimes in practice, we have to deal with infinite time state or action space.
 Methods we used in tabular setting like UCB-VI can not be directly used in such cases.
 
-### Challenges in Agnostic Learning
+### Challenges in agnostic learning
 
 The second question is that often we do not have much assumption on the MDP in tabular setting.
 But sometimes we do want to incorporate our prior knowledge in our algorithm to achieve smaller regret and faster convergence even in tabular settings.
@@ -31,11 +55,21 @@ with probability at least $1-\delta$, we have that
 $$
 V_0^{\hat{\pi}}(\mu)\ge\max_{\pi\in\Pi} V_0^\pi(\mu)-H|{\cal A}|^H\sqrt{\frac{2}{N}\log\frac{2|\Pi|}{\delta}}
 $$
+which is equivalent to say,
+to achieve a $\epsilon$-optimal policy with probability at least $1-\delta$,
+we need
 
-Therefore, it is important to know further about generalization in reinforcement learning.
-And in this article,
-we are going to include some of these ideas proposed in such field.
-Note that most of the content actually comes from [this book](https://rltheorybook.github.io/).
+$$
+N\ge H|A|^H\frac{2\log(2|\Pi|/\delta)}{\epsilon^2}
+$$
+
+We are facing a sample complexity bound exponential in $H$
+
+So here comes the question
+
+>What are the minimal structural assumptions that empower sample-efficient RL?
+>
+>---*[[Jin et.al. 2021]](https://arxiv.org/pdf/2102.00815)*
 
 ## A Naive Thought: Discretization
 
@@ -50,33 +84,51 @@ you still only utilize continuity.
 
 ## Linear Approximation
 
-First of all,
-let's define the notations and settings.
-$$
-\begin{align*}
-    {\cal S}\quad&\text{state space}\\\\
-    {\cal A}\quad&\text{action space}\\\\
-    H\quad&\text{horizon}\\\\
-    r_h(s,a)\quad&\text{reward}\\\\
-    \Bbb P_h(\cdot\vert s,a)\quad&\text{transition probability}\\\\
-\end{align*}
-$$
-We say we are in episodic setting and consider the finite horizon MDP.
-We are also going to use this setting for most other part of this article.
+A simple yet powerful way is using linear approximation.
+A line of work have been done under similar ideas.
 
 ### Linear MDP
 
 Specifically, in linear MDP we assume the following conditions hold.
+
+**Definition**(linear MDP):
+MDP $\cal M$ is a *linear MDP* with a feature map $\phi:\cal S\times A\mapsto \Bbb R^d$,
+if for any $h\in[H]$,
+there exists $d$ unknown measures $\mu_h=(\mu_h^{(1)},\ldots,\mu_h^{(d)})$ over $\cal S$
+and an unknown vector $\theta_h\in \Bbb R^d$,
+such that for any $(s,a)\in\cal S\times A$,
+we have
+
 $$
 r_h(s,a)=\theta_h^T\phi(s,a)\\\\
 \Bbb P_h(\cdot\vert s,a)=\mu_h(\cdot)^T\phi(s,a),
 $$
 which is to say, by mapping state-action pairs $(s,a)$ to a vector $\phi(s,a)$ in $d$-dimentional feature space, we can represent both rewards and transition probability with some $d$-dimentional parameters.
 
-Then apparently we can also write Q-value function in linear from
+
+**Proposition**:
+*For a linear MDP,
+for any policy $\pi$,
+there exists weights $\\{w_h^\pi\\}_{h=1}^H$
+s.t. for any $(s,a,h)\in{\cal S\times A}\times [H]$
+we have $Q_h^\pi(s,a)=\langle\phi(s,a),w_h\rangle$*
+
+*Proof.*
+By Bellman equality
 $$
-Q_h(s,a)=w_h^T\phi(s,a)
+\begin{align*}
+Q_h^\pi(s,a)
+&=r_h(s,a)+(\Bbb P_hV_{h+1}^\pi)(s,a)\\\\
+&=\phi^T(s,a)\theta_h
++\phi^T(s,a)\int V_{h+1}^\pi(s')d\mu(s')\\\\
+&=\phi^T(s,a)\left(\theta_h+\int V_{h+1}^\pi(s')d\mu(s')\right)
+\end{align*}
 $$
+
+Then just set $w_h$ to be the left part,
+we show $Q_h^\pi(s,a)$ is linear.
+$$\tag*{$\blacksquare$}$$
+which completes the proof.
 
 **Algorithm**(LSVI-UCB):
 
@@ -94,26 +146,15 @@ Let's imagine we are estimating a hyperplane in $\Bbb R^d$.
 We know that we can assure such a hyperplane with affinely independent $d$ points.
 So what we do here is just exploring more in directions that are more (in some sense) affinely independent from the recorded ones.
 
-**Theorem**:
-For any linear MDP setting,
-w.p. $\ge 1-p$,
-the regret of UCB-LSVI is
-$$
-regret(K)\le c\sqrt{d^3H^3T\iota}
-$$
-where $\iota=\log\frac{dT}{p}$
+One can prove that LSVI-UCB has regret $\sqrt{d^3H^3T}$,
+see [[Jin et al. 2019]](https://arxiv.org/pdf/1907.05388).
 
-*Proof.*
-
-$$\tag*{$\blacksquare$}$$
-which completes the proof.
-
-### Linear Realizability
+### Linear realizability
 
 Instead of assuming value functions are all linear,
 we can just suppose that $Q_h^\star$, $V_h^\star$ are functions which are in the span of some given features.
 
-**Algorithm**(ELEANOR, from[Zanette et.al. 2020]):
+**Algorithm**(ELEANOR, from [[Zanette et.al. 2020]](https://arxiv.org/pdf/2003.00153)):
 
 - FOR episode $k=1,\ldots,K$
   - receive initial state $s_1^k$
@@ -126,8 +167,6 @@ we can just suppose that $Q_h^\star$, $V_h^\star$ are functions which are in the
     - transit to next step
 
 Can also guarantee a regret polynomial in $H$
-
-### Drawbacks
 
 - need to specify feature mapping
 - sometimes linear is too strong an asssumption
@@ -145,7 +184,7 @@ it maps functions in hypothesis class
 
 we may have model-based and value-based hypothesis classes.
 
-### Low Bellman Rank
+### Low Bellman rank
 
 **Definition**(average bellman error with roll-in policy):
 $\forall f\in\cal F$ and
@@ -172,12 +211,13 @@ $$
 \epsilon(f,\pi_{f'})=\langle\phi(f),\psi(f')\rangle
 $$
 
-### Low Bilinear Rank
+**Algorithm**(OLIVE):
 
-### Low Bellman-Eluder Rank
+### Low Bilinear rank
 
->What are the minimal structural assumptions that empower sample-efficient RL?
->--<cite>[Jin et.al. 2021]</cite>
+**Algorithm**(BLin-UCB):
+
+### Low Bellman-Eluder rank
 
 **Algorihtm**(Golobal Optimism based on Local Fitting, GOLF):
 
@@ -188,9 +228,9 @@ $$
   - Augment $D_h=D_h\cup\\{s_h,a_h,s_{h+1}\\}$ for $h\in[H]$
   - Update ${\cal B}^k=\\{f\in {\cal F}: L_{\cal D_h}(f_h,f_{h+1})\le\inf_{f\in\cal F_n}L_{\cal D_h}(f,f_{h+1})+\beta,\forall h\in[H]\\}$
 
-Basically speaking, it's a generalized version of UCB-VI algorithm.
+Basically speaking, it's a generalized version of ELEANOR algorithm.
 
-may be computationaly complex
+- may be computationaly hard
 
 can we say seperate the problem of RL into standalone generalization,planning and exploration tasks?
 
