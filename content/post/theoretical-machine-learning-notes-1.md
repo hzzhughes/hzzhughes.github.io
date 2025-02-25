@@ -5,7 +5,7 @@ title : 'Settings in Theoretical Machine Learning'
 katex : true
 tags : ['learing theory']
 ---
-> This is a personal learing note on some of the baisc settings I have encountered so far in a learning theory course. If there is any typo or other kind of miss, I'd be happy if you could let me know.
+> This is a personal learing note on some of the baisc settings I have encountered so far in a learning theory course. If there is any typo or other kind of mistake, I'd be happy if you could let me know.
 
 One of the main idea behind learing theory is to figure out why machine learning algorithms work from a statistical or mathematical perspective. This article talks about the basic settings used in learning theory.
 

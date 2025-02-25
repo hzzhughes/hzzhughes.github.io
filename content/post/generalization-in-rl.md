@@ -1,6 +1,6 @@
 ---
 date : '2025-02-10'
-draft : true
+draft : false
 title : 'Some Notes on Generalization in RL'
 katex : true
 tags : ['learing theory','reinforcement learning']
