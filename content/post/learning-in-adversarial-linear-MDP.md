@@ -157,10 +157,11 @@ we have $Q_h^\pi(s,a)=\langle\phi(s,a),w_h^\pi\rangle$*
     - take action $a$ following mixed strategy $\pi_h^k$
     - observe $s_{h+1}^k$ and receive loss $l_h^k$
   - FOR $h=H,\ldots,1$
-    - $\Lambda=\sum_{a\in\cal A_h}p_h(a)\phi(s_h^k,a)\phi(s_h^k,a)^T$
-    - $\hat w_h^k=\Lambda^{-1}\phi_h^k(l_h^k+\hat V_{h+1}^k(s_{h+1}^k))$
+    - $\Lambda=\sum_{a\in\cal A_h}\pi_h^k(a)\phi(s_h^k,a)\phi(s_h^k,a)^T$
+    <!-- - $\hat w_h^k=\Lambda^{-1}\phi_h^k(l_h^k+\hat V_{h+1}^k(s_{h+1}^k))$ -->
+    - $\hat w_h^k=\Lambda^{-1}\phi_h^k(\sum_{h'=h}^Hl_{h'}^k)$
     - $\hat Q_h^k(\cdot,\cdot)=\hat w_h^T\phi(\cdot,\cdot)$
-    - $\hat V_h^k(\cdot)=\sum_{a\in\cal A}p_h^k(a)\hat Q_h^k(\cdot,a)$
+    <!-- - $\hat V_h^k(\cdot)=\sum_{a\in\cal A}\pi_h^k(a)\hat Q_h^k(\cdot,a)$ -->
 
 By choosing some proper exploration distribution $\pi$,
 we assures that $\Lambda$ is non-singular.
@@ -172,7 +173,7 @@ we have $\Bbb E [\hat Q_h^k]=Q_h^k$*
 *Proof.*
 Here we use induction to prove this proposition.
 
-First we claim that $\hat V_{H+1}^k=V_{H+1}^k=0$ is surely unbiased
+<!-- First we claim that $\hat V_{H+1}^k=V_{H+1}^k=0$ is surely unbiased -->
 
 Then we claim that if $w_{h+1}^k$ is unbiased,
 we can also prove $w_h^k$ is unbiased.
@@ -184,24 +185,13 @@ $$
     \Lambda^{-1}
     \phi_h^k
     (
-      l_h^k
-      +\hat V_{h+1}^k(s_{h+1}^k)
+      \sum_{h'=h}^Hl_{h'}^k
     )]\\\\
   =&
     \Bbb E[
       \Lambda^{-1}
-      \phi_h^k
-      (
-        l_h^k
-        +\Bbb E_{s_{h+1}^k\sim\Bbb P(s_h^k,a_h^k)}[
-          V_{h+1}^k(s_{h+1}^k))
-        ]]
-    &\text{by consistency of }\hat V_{h+1}^k\\\\
-  =&
-    \Bbb E[
-      \Lambda^{-1}
       {\phi_h^k}Q_h^k(s_h^k,a_h^k)
-    ]&\text{by Bellman equation}\\\\
+    ]&\text{}\\\\
   =&
     \Bbb E[
       \Lambda^{-1}
@@ -234,24 +224,29 @@ $$
 *For any $h\in[H],s\in\cal S_h$*
 $$
 \sum_{k=1}^K
-  \Bbb E_{a\sim\pi_h^k}Q_h^k(s,a)/h
-  -\min_a\sum_{k=1}^KQ_h^k(s,a)/h
+  \Bbb E_{a\sim\pi_h^k}\hat Q_h^k(s,a)/H
+  -\min_a\sum_{k=1}^K\hat Q_h^k(s,a)/H
 \le
   \frac{\log(A)}{\eta_h}
   +2\gamma_h K
   +\eta_h\sum_{k=1}^K\Bbb E_{a\sim\pi_h^k}[
-    Q_h^k(s,a)^2/h^2]
+    \hat Q_h^k(s,a)^2/H^2]
 $$
 
-*Proof*.
-Following the same proof from adversarial linear MAB,
-we have
-And by choosing a proper $\gamma_h$,
-we assure that $|\eta_h Q_h^k/h|\le 1$
-
-$$\tag*{$\blacksquare$}$$
-which completes the proof.
-
+Note that both $\eta$ and $\gamma$ here can depend on $h$ and $s$.
+<!-- $$
+\begin{align*}
+  \hat V_h^k(s_h^k)
+  &=
+    \sum_{a\in\cal A_h}\pi_h^k(a\mid s_h^k)\hat Q_h^k(s_h^k,a)\\\\
+  &=
+    \sum_{a\in\cal A_h}\pi_h^k(a\mid s_h^k){\hat w_h^k}^T\phi(s_h^k,a)\\\\
+  &=
+    \sum_{a\in\cal A_h}\pi_h^k(a\mid s_h^k)\phi(s_h^k,a_h^k)^T\Lambda^{-1}\phi(s_h^k,a)
+    (l_h^k+\hat V_{h+1}^k(s_{h+1}^k))\\\\
+  &=l_h^k+\hat V_{h+1}^k(s_{h+1}^k)
+\end{align*}
+$$ -->
 *Proof of Theorem.*
 We know
 $$
@@ -283,15 +278,55 @@ by recursively using such technique we finally prove that
 $$
 {\cal R_{\it K}}
 \le\Bbb E[\sum_{h=1}^H\Bbb E_{s_h^k\sim\mu_h^*}[\sum_{k=1}^K
-  \Bbb E_{a\sim\pi_h^k}Q_h^k(s_h,a)
+  \Bbb E_{a\sim\pi_h^k}Q_h^k(s_h^k,a)
   -\min_{a\in\cal A_h}\sum_{k=1}^KQ_h^k(s_h^k,a)]
 ]
 $$
 
 where $\mu_h^\ast$ is the occupancy measure of $\pi^\ast$
 
-and at this point we can finally use the consistency of our estimator and hedge lemma to prove the regret bound of $\sqrt{(2g(\pi)+d)H^4K\log(A)}$
+At this point we can finally use the consistency of our estimator and hedge lemma.
+
+We know when $\eta_h\hat Q_h^k/H\ge-1$, we have
+$$
+\begin{align*}
+  \Bbb E[\sum_{k=1}^K
+  \Bbb E_{a\sim\pi_h^k}Q_h^k(s_h^k,a)
+  -\min_{a\in\cal A_h}\sum_{k=1}^KQ_h^k(s_h^k,a)]
+  =&\Bbb E[\sum_{k=1}^K
+  \Bbb E_{a\sim\pi_h^k}\hat Q_h^k(s_h^k,a)
+  -\min_{a\in\cal A_h}\sum_{k=1}^K\hat Q_h^k(s_h^k,a)]\\\\
+  \le&
+    H(\frac{\log(A)}{\eta_h}
+    +2\gamma_h K
+    +\eta_h\sum_{k=1}^K\Bbb E_{a\sim\pi_h^k}[
+      \hat Q_h^k(s_h^k,a)^2/H^2])\\\\
+\end{align*}
+$$
+
+And
+
+$$
+\Bbb E_{a\sim\pi_h^k}[\hat Q_h^k(s,a)^2/H^2]
+=(\sum_{h'=h}^Hl_{h'}^k/H)^2{\phi_h^k}^T\Lambda^{-1}\phi_h^k
+\le{\phi_h^k}^T\Lambda^{-1}\phi_h^k
+=\text{trace}(\phi_h^k{\phi_h^k}^T\Lambda^{-1})
+=d
+$$
+
+And by choosing a proper $\gamma_h$,
+we assure that $|\eta_h\hat Q_h^k/H|\le 1$
+
+Finally,
+by choosing some proper $\eta_{1:H}$,
+we prove the regret bound of $\sqrt{(2g(\pi)+d)H^4K\log(A)}$
+
 $$\tag*{$\blacksquare$}$$
 which completes the proof.
 
 ## Improvements
+
+Since exp3 algorithm is computationally inefficient,
+we can still make some improvements.
+For instance,
+we may be able to implement other FTRL or BLO algorithms following similar technique we used above.
