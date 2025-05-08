@@ -26,13 +26,14 @@ the reason why introducing a bonus term can help is that we are still handling s
     - take action $a$ following mixed strategy $\pi_{t,h}$
     - observe $x_{h+1}^k$ and receive loss $l_{t,h}$
   - FOR $h=H,\ldots,1$
-    - $\Lambda=\lambda I+\sum_{a\in\cal A_h}\pi_{t,h}(a\mid x_{t,h})\phi(x_{t,h},a)\phi(x_{t,h},a)^T$
-    - $\hat w_{t,h}=\Lambda^{-1}\phi_{t,h}(l_{t,h}+\hat V_{h+1}^k(x_{h+1}^k))$
+    - $\Sigma=\gamma I+\sum_{a\in\cal A_h}\pi_{t,h}(a\mid x_{t,h})\phi(x_{t,h},a)\phi(x_{t,h},a)^T$
+    - $\Lambda=\lambda I+\sum_{\tau\le t}\phi_{\tau,h}\phi_{\tau,h}^T$
+    - $\hat w_{t,h}=\Sigma^{-1}\phi_{t,h}l_{t,h}+\Lambda^{-1}\sum_{\tau\le t}\phi_{\tau,h}\hat V_{t,h+1}(x_{\tau,h+1})$
     <!-- - $\hat w_{t,h}=\Lambda^{-1}\phi_{t,h}(\sum_{h'=h}^Hl_{h'}^k)$ -->
-    - $\hat Q_{t,h}(\cdot,\cdot)=\hat w_{t,h}^T\phi(\cdot,\cdot)$
-    - $\hat V_{t,h}(\cdot)=\sum_{a\in\cal A}\pi_{t,h}(a)\hat Q_{t,h}(\cdot,a)$
-    - $b_{t,h}(x)=\langle\pi_t(\cdot\mid x),\beta\Vert\phi(x,\cdot)\Vert_{(\Lambda)^{-1}}\rangle$
-    - $B_{t,h}(x,a)=b_{t,h}(x)+\phi(x,a)\Lambda^{-1}\phi_{t,h}\sum_{a'\in\cal A}\pi_{t,h+1}(a'\mid x_{t,h+1})B_{t,h+1}(x_{t,h+1},a')$
+    - $\hat Q_{t,h}(\cdot,\cdot)=\min\\{\hat w_{t,h}^T\phi(\cdot,\cdot),H\\}$
+    - $\hat V_{t,h}(\cdot)=\sum_{a\in\cal A}\pi_{t,h}(a\mid\cdot)\hat Q_{t,h}(\cdot,a)$
+    - $b_{t,h}(x)=$
+    - $\hat B_{t,h}(x,a)=b_{t,h}(x,a)+(1+\frac{1}{H})\Lambda^{-1}\sum_{\tau\le t}\phi_{\tau,h}\sum_{a\in\cal A}\pi_{t,h+1}(a'\mid x_{\tau,h+1})\hat B_{t,h+1}(x_{\tau,h+1},a')$
 
 First,
 following the proving process from [[Luo et.al.]](https://arxiv.org/pdf/2107.08346),
@@ -80,107 +81,145 @@ We know
 $$
 \begin{align*}
     w_{t,h}-\hat w_{t,h}
-    =&w_{t,h}-(\Lambda)^{-1}\phi_{t,h}[l_{t,h}+\hat V_{t,h+1}(x_{t,h+1})]\\\\
-    =&(\Lambda)^{-1}\left(\lambda w_{t,h}+\langle\pi_t(\cdot\mid x_{t,h}),[\phi(l_{t,h}+\Bbb P_hV_{h+1})] (x_{t,h},\cdot)\rangle- \phi_{t,h}[l_{t,h}+\hat V_{t,h+1}(x_{t,h+1})]\right)
+    =&w_{t,h}-\Sigma^{-1}\phi_{t,h}l_{t,h}-\Lambda^{-1}\sum_{\tau\le t}\phi_{\tau,h}\hat V_{t,h+1}(x_{\tau,h+1})\\\\
+    =&\Sigma^{-1}[\gamma \theta_{t,h}+\langle\pi_t(\cdot\mid x_{t,h}),(\phi l_{t,h}) (x_{t,h},\cdot)\rangle- \phi_{t,h}l_{t,h}]\\\\
+    &+\Lambda^{-1}[\lambda\int V_{t,h+1}(x')d\mu(x')+\sum_{\tau\le t}\phi_{\tau,h}(\Bbb P_hV_{t,h+1}(x_{\tau,h},a_{\tau,h})-\hat V_{t,h+1}(x_{\tau,h+1}))]
     \\\\
-    =&\lambda(\Lambda)^{-1}w_{t,h}
+    =&\gamma\Sigma^{-1}\theta_{t,h}
     &q_1\\\\
-    &-(\Lambda)^{-1}(\phi_{t,h}l_{t,h}-\langle\pi(\cdot\mid x_{t,h}),(\phi l_{t,h})(x_{t,h},\cdot)\rangle)
+    &+\lambda\Lambda^{-1}\int V_{t,h+1}(x')d\mu(x')
     &q_2\\\\
-    &-(\Lambda)^{-1}\langle\pi(\cdot\mid x_{t,h}),\phi_{t,h}\hat V_{t,h+1}(x_{t,h+1})-(\phi\Bbb P_h\hat V_{t,h+1})(x_{t,h},\cdot)\rangle
+    &+\Sigma^{-1}(\langle\pi(\cdot\mid x_{t,h}),(\phi l_{t,h})(x_{t,h},\cdot)\rangle-\phi_{t,h}l_{t,h})
     &q_3\\\\
-    &+(\Lambda)^{-1}\langle\pi(\cdot\mid x_{t,h}),[\phi\Bbb P_h(V_{t,h+1}-\hat V_{t,h+1})] (x_{t,h},\cdot)\rangle
+    &+\Lambda^{-1}\sum_{\tau\le t}\phi_{\tau,h}[\Bbb P_h\hat V_{t,h+1}(x_{\tau,h},a_{\tau,h})-\hat V_{t,h+1}(x_{\tau,h+1})]
     &q_4\\\\
+    &+\Lambda^{-1}\sum_{\tau\le t}\phi_{\tau,h}\Bbb P_h(V_{t,h+1}-\hat V_{t,h+1})(x_{\tau,h},a_{\tau,h})
+    &q_5\\\\
 \end{align*}
 $$
 Then we bound $q1,q2,q3$ term respectively.
 
-For $q_1$,
+For $q_1$, if we look at it in the special case of tabular setting, we have
 $$
-\vert\phi(x,a)^Tq_1\vert
-=\vert\lambda\phi(x,a)^T(\Lambda)^{-1}w_{t,h}\vert
-\le\sqrt{\lambda}\Vert w_{t,h}\Vert\Vert\phi(s,a)\Vert_{(\Lambda)^{-1}}
+\phi(x,a)^Tq_1=\frac{\gamma l_t(x,a)}{\gamma+\pi_t(a\mid x)\Bbb I\\{x=x_t\\}}
 $$
-
-The last step is by weighted Cauchy-Schwarz and the fact that $\Lambda\succeq\lambda I$.
-
-For $q_2$, using similar technique, we have
+which is briefly of order $O(\gamma\frac{ l_t(x,a)}{\gamma+q(x,a)})$ if we take expectation over it. And since we know this term can be nicely bounded if we set its upper bound as bonus term,
+we follow the similar procedure in tabular setting and have
 $$
-\vert\phi(x,a)^Tq_2\vert
-=\vert\phi(x,a)^T(\Lambda)^{-1}(\phi_{t,h}l_{t,h}-\langle\pi(\cdot\mid x_{t,h}),(\phi l_{t,h})(x_{t,h},\cdot)\rangle)\vert
-\le\sqrt{\frac{4}{\lambda}}\Vert\phi(s,a)\Vert_{(\Lambda)^{-1}}
+\phi(x,a)^Tq_1\le\gamma\sqrt{d}\Vert\Sigma^{-1}\phi(x,a)\Vert
 $$
 
-For $q_3$, we have
+For $q_2$, we have
 $$
-\vert\phi(x,a)^Tq_3\vert
-=\vert\phi(x,a)^T(\Lambda)^{-1}\langle\pi(\cdot\mid x_{t,h}),\phi_{t,h}\hat V_{t,h+1}(x_{t,h+1})-(\phi\Bbb P_h\hat V_{t,h+1})(x_{t,h},\cdot)\rangle\vert
-\le H\sqrt{\frac{4}{\lambda}}\Vert\phi(s,a)\Vert_{(\Lambda)^{-1}}
+\begin{align*}
+    \phi(x,a)^Tq_2
+    =&\lambda\phi(x,a)^T\Lambda^{-1}\int V_{t,h+1}(x')d\mu(x')\\\\
+    \le&\sqrt{\lambda}\Vert\int V_{t,h+1}(x')d\mu(x')\Vert
+        \Vert\phi(s,a)\Vert_{(\Lambda)^{-1}}\\\\
+    \le&H\sqrt{d\lambda}\Vert\phi(s,a)\Vert_{(\Lambda)^{-1}}
+\end{align*}
 $$
 
-For $q_4$,
+For $q_3$, we have $\Bbb E[\phi(x,a)^Tq_3]=0$
+$$
+\vert\sum_t\phi(x,a)^Tq_3\vert
+=\vert\phi(x,a)^T(\Sigma)^{-1}(\sum_t\phi_{t,h}l_{t,h}-\langle\pi(\cdot\mid x_{t,h}),(\phi l_{t,h})(x_{t,h},\cdot)\rangle)\vert
+\le
+\Vert\Sigma^{-1}\phi(x,a)\Vert
+$$
+
+For $q_4$, using Lemma B.3 from [[Jin et.al.]](http://arxiv.org/abs/1907.05388), we have
+$$
+\vert\sum_t\phi(x,a)^Tq_3\vert
+=\vert\phi(x,a)^T\Lambda^{-1}\sum_{\tau\le t}\phi_{\tau,h}[\Bbb P_h\hat V_{t,h+1}(x_{\tau,h},a_{\tau,h})-\hat V_{t,h+1}(x_{\tau,h+1})]
+\le
+CdH\sqrt{\chi}\Vert\phi(s,a)\Vert_{(\Lambda)^{-1}}
+$$
+with probability $1-p$,where $\chi=\log[2(c_\beta+1)dT/p]$ is some log term.
+
+For $q_5$,
 
 $$
 \begin{align*}
-    \phi(x,a)^T q_4
+    \phi(x,a)^T q_5
     =&
-    \phi(x,a)^T
-    (\Lambda)^{-1}
-    \langle
-        \pi(\cdot\mid x_{t,h}),
-        [
-            \phi
-            \Bbb P_h(
-                V_{t,h+1}
-                -\hat V_{t,h+1}
-            )
-        ]
-        (x_{t,h},\cdot)
-    \rangle
+        \Lambda^{-1}
+        \sum_{\tau\le t}
+        \phi_{\tau,h}
+        \Bbb P_h(
+            V_{t,h+1}-\hat V_{t,h+1}
+        )
+        (x_{\tau,h},a_{\tau,h})
     \\\\
     =&
     \phi(x,a)^T
     (\Lambda)^{-1}
-    \langle
-        \pi(\cdot\mid x_{t,h}),
-        (\phi\phi^T)(x_{t,h},\cdot)
-    \rangle
-    \int(V_{t,h+1}-\hat V_{t,h+1})(x_{h+1})d\mu(x_{h+1})
+    \sum_{\tau\le t}\phi_{\tau,h}\phi_{\tau,h}^T
+    \int(V_{t,h+1}-\hat V_{t,h+1})(x')d\mu(x')
     \\\\
     =&
     \Bbb P_h(V_{t,h+1}-\hat V_{t,h+1})(x,a)
     &p_1\\\\
-    &-\lambda\phi(x,a)^T(\Lambda)^{-1}\int(V_{t,h+1}-\hat V_{t,h+1})(x_{h+1})d\mu(x_{h+1})
+    &-\lambda\phi(x,a)^T(\Lambda)^{-1}\int(V_{t,h+1}-\hat V_{t,h+1})(x')d\mu(x')
     &p_2
 \end{align*}
 $$
-where $\vert p_2\vert\le\sqrt{\lambda}\Vert\int(V_{t,h+1}-\hat V_{t,h+1})(x_{h+1})d\mu(x_{h+1})\Vert\Vert\phi(s,a)\Vert_{(\Lambda)^{-1}}$
+where $\vert p_2\vert\le\sqrt{\lambda}\Vert\int(V_{t,h+1}-\hat V_{t,h+1})(x_{h+1})d\mu(x_{h+1})\Vert\Vert\phi(s,a)\Vert_{(\Lambda)^{-1}}\le 2H\sqrt{d\lambda}\Vert\phi(s,a)\Vert_{(\Lambda)^{-1}}$
 
-To bound $\Vert\int(V_{t,h+1}-\hat V_{t,h+1})(x_{h+1})d\mu(x_{h+1})\Vert$,
-we need to ensure that $\hat V_{t,h}\le H$.
-Actually, this is true if we choose $\lambda\ge 1$ since
-$$
-\begin{align*}
-    \hat Q_{t,h}
-    =&\phi(\Lambda)^{-1}\phi_{t,h}[l_{t,h}+\hat V_{t,h+1}(x_{t,h+1})]\\\\
-    \le&\frac{1}{\lambda}[l_{t,h}+\hat V_{t,h+1}(x_{t,h+1})]\\\\
-\end{align*}
-$$
-and we know $\hat Q_{t,H}=\phi(\Lambda)^{-1}\phi_{t,H}l_{t,H}\le\frac{1}{\lambda}$,
-and by induction we can easily prove that for any $(x,a)\in \cal X\times A_h$,
-we have $Q_{t,h}(x,a)\le H-h+1\le H$ if we choose $\lambda\ge 1$
-
-Then we have $\Vert\int(V_{t,h+1}-\hat V_{t,h+1})(x_{h+1})d\mu(x_{h+1})\Vert\le2H\sqrt{d\lambda}$
-
-Combining upper bounds we obtained on $p1,p2,p3,p4$,
+Combining upper bounds we obtained on $q1,q2,q3,q4$,
 we can prove that
 for any $(x,a)\in \cal S_h\times A_h$
 $$
-\mid\phi(x,a)^T\hat w_{t,h}-Q_t(x,a)-\Bbb P_h(V_{t,h+1}-\hat V_{t,h+1})(x,a)\mid
-\le\beta\Vert\phi(x,a)\Vert_{(\Lambda)^{-1}}
+\Bbb E[Q_t(x,a)-\hat Q_t(x,a)-\Bbb P_h(V_{t,h+1}-\hat V_{t,h+1})(x,a)]
+\le \phi(x,a)^Tq_1+\beta\Vert\phi(x,a)\Vert_{(\Lambda)^{-1}}
 $$
 holds with probability,
-where $\beta=cH\sqrt{d}$
+where $\beta=$
+
+and if we choose $b_{t,h}(x,a)=H\Bbb E_{a\sim\pi_t(\cdot\mid x)}[\phi(x,a)^Tq_1+\beta\Vert\phi(x,a)\Vert_{(\Lambda)^{-1}}]$,
+we have
+$$
+\begin{align*}
+    \sum_a
+    \pi_t(a\mid x)
+    \Bbb E[
+        Q_t(x,a)-\hat Q_t(x,a)
+    ]
+    \le \frac{1}{H}b_{t,h}(x,a)
+    +\Bbb P_h(V_{t,h+1}-\hat V_{t,h+1})(x,a)
+\end{align*}
+$$
+
+And since for $x \in {\cal X}_H$ we have
+$$
+\begin{align*}
+    \sum_a
+    \pi_t(a\mid x)
+    \Bbb E[
+        Q_t(x,a)-\hat Q_t(x,a)
+    ]
+    \le& \frac{1}{H}b_{t,H}(x,a)
+    +\Bbb P_h(V_{t,H+1}-\hat V_{t,H+1})(x,a)\\\\
+    =&\frac{1}{H}B_{t,H}(x,a)
+\end{align*}
+$$
+
+So by induction we could prove that
+$$
+\begin{align*}
+    \sum_{a}\pi_t(a\mid x)\Bbb E[Q_t(x,a)-\hat Q_t(x,a)]
+    \le&\frac{1}{H}b_{t,h}(x,a)
+    +\sum_{a}\pi_t(a\mid x)\Bbb P_h(V_{t,H+1}-\hat V_{t,H+1})(x,a)\\\\
+    \le&\frac{1}{H}b_{t,h}(x,a)
+    +\sum_{a}\pi_t(a\mid x)\frac{1}{H}B_{t,h}(x,a)\\\\
+    \le&b_{t,h}(x,a)
+    +\sum_{a}\pi_t(a\mid x)\frac{1}{H}B_{t,h}(x,a)\\\\
+\end{align*}
+$$
+And thus
+$$
+\sum_{x,a}q^\ast(x)\pi_t(a\mid x)\Bbb E[Q_t(x,a)-\hat Q_t(x,a)]\le \sum_{x,a}q^\ast(x)(\pi^\ast(a\mid x)b_{t,h}(x,a)+\pi_t(a\mid x)\frac{1}{H}B_{t,h}(x,a))
+$$
 
 Then we turn to the $\text{bias-2}$,
 
@@ -209,11 +248,8 @@ we have
 $$
 \begin{align*}
     &\text{bias-1 + bias-2 + reg-term}\\\\
-    &\le \tilde{O}(\frac{H}{\eta})
-    +\sum_t\sum_{x,a}q^\ast(x)\pi_t(a\mid x)
-    \beta\Vert\phi(x,a)\Vert_{(\Lambda)^{-1}}\\\\
-    &=\tilde{O}(\frac{H}{\eta})
-    +\sum_t\sum_{x,a}q^\ast(x)\pi^\ast(a\mid x)b_t(x)
+    &\le \tilde{O}(?)
+    +?
 \end{align*}
 $$
 
@@ -222,14 +258,13 @@ we have
 
 $$
 \text{Reg}
-\le\tilde{O}(\frac{H}{\eta})
-+V^{\pi_t}(x_0;b_t)
-+\sum_xq^\ast(x)\sum_t\langle (\pi_t-\pi^\ast)(\cdot\mid x),(\hat B_t-B_t)(x,\cdot)\rangle
+\le\tilde{O}(?)
++3\sum_t V^{\pi_t}(x_{init};b_t)
 $$
 
 since the last term in RHS is also an underestimator,
 we can bound it with constant once we take expectation over both side of above inequality.
-
+<!-- 
 $$
 \begin{align*}
     \Bbb E_{x\sim q_h^\ast}[
@@ -275,4 +310,4 @@ $$
         \rangle
     ]\\\\
 \end{align*}
-$$
+$$ -->
