@@ -1,22 +1,22 @@
 ---
 date : '2024-11-30T22:11:33-08:00'
-draft : true
+draft : false
 title : 'Build Your Blog: One Possible Example'
 tags : ['blog']
 ---
 >This article talks about the building process of this blog.
 
-Lots of people in both academic and engineering field have their own blog. But as known to all, building your personal website is a somewhat tedious work involving countless strange front-end tools. This article introduces one possible example to build your blog in a less costly way.
+Lots of people in both academic and engineering field have their own blog. But as known to all, building your personal website is a somewhat tedious work, especially for those who unfamiliar with front-end tools. This article introduces one possible example to build your blog in a both efficient and cost-free way in perspective from a non-frontend worker.
 
-## Framework
+## Framework: Hugo
 
-Since we do not wish to write raw html, the first thing to do is to pick a blog framework. Modern blog frameworks help us build our websites more efficiently. They can convert markdown files into blog posts automatically. Also, there are numerous templates that we can use directly in such frameworks which reduce the necessity to design a layout by ourselves.
+Since we do not wish to write raw html, the first thing to do is to pick a blog framework. Modern blog frameworks help us build our websites more efficiently. They can convert markdown files into blog posts automatically. Also, there are lots of templates that we can use which reduce the necessity to design a layout by ourselves.
 
 Though there are various other options like [jekyll](https://jekyllrb.com) and [wordpress](https://wordpress.com), we only choose [Hugo](https://gohugo.io) here as an example.
 
 ### Install
 
-First, following a [tutorial](https://gohugo.io/getting-started/quick-start/) from the official document, we need to install dependencies of hugo and then hugo itself.
+First, following the [tutorial](https://gohugo.io/getting-started/quick-start/) from official document, we need to install dependencies of hugo and then hugo itself.
 
 ### Quickstart
 
@@ -24,7 +24,7 @@ Then, to create our first project we follow the official tutorial
 
 ## Template: PaperMod
 
-Templates help you build your website with some predefined styles. This greatly simplifies the process of building one's own website.
+Templates help you build your website with some predefined styles, which greatly simplifies the process of building one's own website.
 
 The template we use here is [PaperMod](https://github.com/adityatelange/hugo-PaperMod). You can preview one of its demo [here](https://adityatelange.github.io/hugo-PaperMod/).
 

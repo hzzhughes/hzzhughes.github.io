@@ -5,7 +5,7 @@ title : 'Some Notes on Generalization in RL'
 katex : true
 tags : ['learing theory','reinforcement learning']
 ---
->This is a personal note on some of the ideas in RL the writer learned so far. Many of them could be incorrect and I'd be happy if you could let me know those you find.
+>This is a personal note on some of the ideas in RL the writer learned so far. Many of them could be incorrect and I'd be happy if you could let me know.
 >
 
 In this article,
@@ -168,6 +168,7 @@ we can just suppose that $Q_h^\star$, $V_h^\star$ are functions which are in the
 
 Can also guarantee a regret polynomial in $H$
 
+- computationally inefficient
 - need to specify feature mapping
 - sometimes linear is too strong an asssumption
 
@@ -179,7 +180,7 @@ we may need consider general function approximation
 where we focus on hypothesis class $\cal H$ just like
 what we do in supervised learning.
 
-instead of maps state-actoin pairs
+instead of mapping state-actoin pairs
 it maps functions in hypothesis class
 
 we may have model-based and value-based hypothesis classes.
