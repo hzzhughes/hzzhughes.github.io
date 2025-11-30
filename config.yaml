@@ -1,6 +1,6 @@
 baseURL : 'https://hzzhughes.github.io/'
 languageCode : 'en-us'
-title : 'Hughes Zhou'
+title : 'Hanbin Zhou'
 theme : 'PaperMod'
 
 markup:
@@ -10,15 +10,16 @@ markup:
   highlight:
     noClasses: false
 params:
-  homeInfoParams:
-    Title: Welcome to Hughes's blog!
-    Content: Hi there, I'm Hughes Zhou, this is my personal website, you can find more about me [here](about/).
+  mainSections: []
+  # homeInfoParams:
+  #   Title: Welcome to Hughes's blog!
+  #   Content: Hi there, I'm Hughes Zhou, this is my personal website, you can find more about me [here](about/).
 
-  socialIcons: # optional
-    - name: "GitHub"
-      url: "https://github.com/hzzhughes"
-    - name: "RSS"
-      url: "/index.xml"
+  # socialIcons: # optional
+  #   - name: "GitHub"
+  #     url: "https://github.com/hzzhughes"
+  #   - name: "RSS"
+  #     url: "/index.xml"
   ShowCodeCopyButtons: true
   ShowToc: true
 outputs:
@@ -29,21 +30,21 @@ outputs:
 
 menu:
   main:
-    - name: Posts
-      url: /
+    - name: Blog
+      url: post/
       weight: 1
-    - name: About
-      url: about/
-      weight: 2
-    - name: Archive
-      url: archives
-      weight: 3
+    # - name: Misc
+    #   url: misc/
+    #   weight: 2
+    # - name: Archive
+    #   url: archives
+    #   weight: 3
     # - name: Search
     #   url: search/
     #   weight: 3
-    - name: Tags
-      url: tags/
-      weight: 4
+    # - name: Tags
+    #   url: tags/
+    #   weight: 4
     # - name: Projects
     #   url: projects/
     #   weight: 2
