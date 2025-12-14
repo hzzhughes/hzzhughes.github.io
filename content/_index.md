@@ -17,7 +17,7 @@ hiddenInHomeList: true
 
 
 Hi there! I'm Hanbin Zhou, currently a M.Sc. student at [University of Southern California](https://www.usc.edu).
-I am very fortunate to be advised by [Haipeng Luo](https://haipeng-luo.net).
+I am very fortunate to be advised by [Prof. Haipeng Luo](https://haipeng-luo.net).
 
 My research interests generally lie in designing practical and adaptive machine learning algorithms with strong theoretical guarantees,
 especially in online/reinforcement learning under adversarial/multi-agent environment.
