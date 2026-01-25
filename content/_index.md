@@ -8,19 +8,19 @@ layout: "home" # Use PaperMod's home layout
 # you override the automatic listing of all your posts.
 mainSections: [] 
 hiddenInHomeList: true
+katex: true
 ---
 
 # About
 
 <img src="/images/night_heron.png" alt="" style="width:200px;height:auto;float: right;margin: 0px 0px 20px 10px;">
 
-
-
-Hi there! I'm Hanbin Zhou, currently a M.Sc. student at [University of Southern California](https://www.usc.edu).
-I am very fortunate to be advised by [Prof. Haipeng Luo](https://haipeng-luo.net).
+Hi there! I'm Hanbin Zhou, currently a M.Sc. student at the [University of Southern California](https://www.usc.edu).
+I am very fortunate to be advised by [Prof. Haipeng Luo](https://haipeng-luo.net),
+who introduced me to the world of learning theory.
 
 My research interests generally lie in designing practical and adaptive machine learning algorithms with strong theoretical guarantees,
-especially in online/reinforcement learning under adversarial/multi-agent environment.
+especially in online/reinforcement learning under adversarial/multi-agent environments.
 
 You can find my CV [here]().
 
@@ -37,6 +37,11 @@ Work still in progress.
 
 ## Misc
 
-In my free time,
-I am also a TCG player
-and a big Anime fan.
+One might find my github username somewhat obscure,
+it basically stands for
+
+$$\text{HZZHUGHES}=\text{HZ}+\text{Z}+\text{HUGHES}$$
+
+where $\text{HZ}$ is the abbreviation of  my hometown [Hangzhou](https://en.wikipedia.org/wiki/Hangzhou),
+$\text{Z}$ is the first initiative of my surname and
+$\text{HUGHES}$ is my English name.
