@@ -43,5 +43,5 @@ it basically stands for
 $$\text{HZZHUGHES}=\text{HZ}+\text{Z}+\text{HUGHES}$$
 
 where $\text{HZ}$ is the abbreviation of  my hometown [Hangzhou](https://en.wikipedia.org/wiki/Hangzhou),
-$\text{Z}$ is the first initiative of my surname and
+$\text{Z}$ is the initial of my surname and
 $\text{HUGHES}$ is my English name.
