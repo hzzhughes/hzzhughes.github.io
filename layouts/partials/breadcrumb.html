@@ -1,0 +1,13 @@
+<nav class="breadcrumb" aria-label="Breadcrumb" style="margin-bottom:10px;font-size:0.9rem;">
+  <a href="{{ "/" | relURL }}">Home</a>
+  {{ if or (eq .Section "blog") (eq .Type "blog") }}
+    {{ if and (eq .Kind "section") (eq .Section "blog") }}
+      &nbsp;&rsaquo;&nbsp;<span>Blog</span>
+    {{ else }}
+      &nbsp;&rsaquo;&nbsp;<a href="{{ "blog" | relURL }}">Blog</a>
+    {{ end }}
+  {{ end }}
+  {{ if .IsPage }}
+    &nbsp;&rsaquo;&nbsp;<span>{{ .Title }}</span>
+  {{ end }}
+</nav>
