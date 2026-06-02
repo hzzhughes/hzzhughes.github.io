@@ -8,7 +8,7 @@ draft = false
 <img src="/images/profile.webp" alt="" style="width:200px;height:auto;float: right;margin: 0px 0px 20px 10px;">
 
 <!-- [[Google Scholar](mailto://hzzhughes@gmail.com)] -->
-[[CV](./)]
+[[CV](./documents/CV.pdf)]
 [[Blog](./blog/)]
 
 Hi there! This is Hanbin Zhou, currently a M.Sc. student at the [University of Southern California](https://www.usc.edu).
@@ -37,13 +37,13 @@ _Work in Process_
 **Hanbin Zhou***, Canzhe Zhao*, Shuai Li\
 _Submitted to NeurIPS 2026_
 
-<!-- ## Misc -->
+## Misc
 
-<!-- One might find my github username somewhat obscure,
+One might find my github username somewhat obscure,
 it basically stands for
 
 $$\text{HZZHUGHES}=\text{HZ}+\text{Z}+\text{HUGHES}$$
 
 where $\text{HZ}$ is the abbreviation of  my hometown [Hangzhou](https://en.wikipedia.org/wiki/Hangzhou),
 $\text{Z}$ is the initial of my surname and
-$\text{HUGHES}$ is my English name. -->
+$\text{HUGHES}$ is my English name.
