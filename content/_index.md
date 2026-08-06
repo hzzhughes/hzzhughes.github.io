@@ -29,13 +29,9 @@ I'll take time to update it when available. -->
 
 ## Publications
 
-**Learning Adversarial Linear MDP with Bandit Feedback and Unknown Transition**\
-with Chen-Yu Wei\
-_Work in Process_
-
 **Improved Sample Complexity for Markov Games via Variance-Aware Bandit Learning**\
 **Hanbin Zhou***, Canzhe Zhao*, Shuai Li\
-_Submitted to NeurIPS 2026_
+_Under Review_
 
 ## Misc
 
