@@ -8,20 +8,20 @@ draft = false
 <img src="/images/profile.webp" alt="" style="width:200px;height:auto;float: right;margin: 0px 0px 20px 10px;">
 
 <!-- [[Google Scholar](mailto://hzzhughes@gmail.com)] -->
+[[Email](mailto:hzhou310@connect.hkust-gz.edu.cn)]
 [[CV](./documents/CV.pdf)]
 [[Blog](./blog/)]
 
-Hi there! This is Hanbin Zhou, currently a M.Sc. student at the [University of Southern California](https://www.usc.edu).
-I am very fortunate to be advised by [Prof. Haipeng Luo](https://haipeng-luo.net),
-who introduced me to the wonderful world of learning theory.
+Hi there! This is Hanbin Zhou, currently a PhD student at the Hong Kong University of Science and Technology (Guangzhou).
+I am fortunate to be advised by [Prof. Tianyuan Jin](https://tianyuanjin.github.io).
+Prevously, I obtained my Master's degree from the University of Southern California, where
+I had the privilege to work with [Prof. Haipeng Luo](https://haipeng-luo.net).
+<!-- who introduced me to the wonderful world of learning theory. -->
 
 My research interests generally lie in the intersection of statistical learning, online decision making and optimization.
 Specifically, I work on reinforcement learning theory, especially under adversarial and multi-agent settings.
 
 <!-- You can find my CV [here](). -->
-
-You can reach me at:
-`[firstname] dot [lastname] at usc dot edu`
 
 ---
 <!-- This website is still under construction,
