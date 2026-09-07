@@ -8,7 +8,7 @@ draft = false
 <img src="/images/profile.webp" alt="" style="width:200px;height:auto;float: right;margin: 0px 0px 20px 10px;">
 
 <!-- [[Google Scholar](mailto://hzzhughes@gmail.com)] -->
-[[Email](mailto:hzhou310@connect.hkust-gz.edu.cn)]
+[[Email](mailto:hanbin.zhou@connect.hkust-gz.edu.cn)]
 [[CV](./documents/CV.pdf)]
 [[Blog](./blog/)]
 
