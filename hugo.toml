@@ -5,12 +5,13 @@ baseURL = "https://hzzhughes.github.io"
 theme = 'hugo-bearblog'
 
 # Basic metadata configuration for your blog.
-# title = "Hugo ʕ•ᴥ•ʔ Bear Blog"
+title = "Hanbin Zhou"
 author = "Hanbin Zhou"
 copyright = "Copyright © 2026, Hanbin Zhou."
 languageCode = "en-US"
 [params]
 hideMadeWithLine = true
+hideTitle = true
 
 [markup.goldmark.renderer]
 unsafe = true

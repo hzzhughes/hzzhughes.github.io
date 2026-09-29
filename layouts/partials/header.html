@@ -1,0 +1,4 @@
+<a href="{{ "" | relURL }}" class="title">
+    <h2>{{ if not .Site.Params.hideTitle }}{{ .Site.Title }}{{ end }}</h2>
+</a>
+<nav>{{- partial "nav.html" . -}}</nav>
