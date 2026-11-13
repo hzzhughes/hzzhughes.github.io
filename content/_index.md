@@ -7,6 +7,7 @@ draft = false
 
 # Hanbin Zhou
 
+PhD Student\
 Data Science and Analytics Thrust\
 The Hong Kong University of Science and Technology (Guangzhou)
 
@@ -33,6 +34,13 @@ Specifically, I work on reinforcement learning theory, especially under adversar
 I'll take time to update it when available. -->
 
 ## Publications
+
+(α-β) indicates alphabetical ordering; * indicates equal contribution.
+
+**A Computationally Efficient and Rate-Optimal Algorithm for Adversarial Linear MDPs with (Aggregate) Bandit Feedback**\
+(α-β) Haolin Liu, Chen-Yu Wei, Hanbin Zhou\
+_Preprint_
+[[arXiv](https://arxiv.org/abs/2610.30801)]
 
 **Provable Benefits of Regularization: Fast Rates for Adversarial Imitation Learning**\
 Hanbin Zhou*, Shangzhe Li*, Alexander Braverman, Weitong Zhang\
